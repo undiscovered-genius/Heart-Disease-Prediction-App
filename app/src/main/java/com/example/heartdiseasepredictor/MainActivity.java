@@ -2,13 +2,18 @@ package com.example.heartdiseasepredictor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EdgeEffect;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText cp, thalach, slope, restecg, chol, trestbps, fbs, oldpeak;
     private Button predict;
+    private ImageButton info1, info2, info3, info4, info5, info6, info7, info8;
     String url = "https://hearth-disease-prediction-app.herokuapp.com/predict";
 
     @Override
@@ -45,26 +51,37 @@ public class MainActivity extends AppCompatActivity {
         fbs = findViewById(R.id.fbs);
         oldpeak = findViewById(R.id.oldpeak);
         predict = findViewById(R.id.predict);
+        info1 = findViewById(R.id.info1);
+        info2 = findViewById(R.id.info2);
+        info3 = findViewById(R.id.info3);
+        info4 = findViewById(R.id.info4);
+        info5 = findViewById(R.id.info5);
+        info6 = findViewById(R.id.info6);
+        info7 = findViewById(R.id.info7);
+        info8 = findViewById(R.id.info8);
 
         predict.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (cp.getText().toString().isEmpty()){
-                    cp.setError("Cannot be Empty");
-                }else if (thalach.getText().toString().isEmpty()){
+                if (cp.getText().toString().isEmpty() || (!cp.getText().toString().equals("0")
+                        && !cp.getText().toString().equals("1") && !cp.getText().toString().equals("2") && !cp.getText().toString().equals("3"))){
+                    cp.setError("Should be in 0-3 range");
+                }else if (thalach.getText().toString().isEmpty() || Integer.parseInt(thalach.getText().toString()) < 0){
                     thalach.setError("Cannot be Empty");
-                }else if (slope.getText().toString().isEmpty()){
-                    slope.setError("Cannot be Empty");
-                }else if (restecg.getText().toString().isEmpty()){
-                    restecg.setError("Cannot be Empty");
-                }else if (chol.getText().toString().isEmpty()){
+                }else if (slope.getText().toString().isEmpty() || (!slope.getText().toString().equals("0")
+                        && !slope.getText().toString().equals("1") && !slope.getText().toString().equals("2"))){
+                    slope.setError("Should be in 0-2 range");
+                }else if (restecg.getText().toString().isEmpty() || (!restecg.getText().toString().equals("0")
+                        && !restecg.getText().toString().equals("1") && !restecg.getText().toString().equals("2"))){
+                    restecg.setError("Should be in 0-2 range");
+                }else if (chol.getText().toString().isEmpty() || Integer.parseInt(chol.getText().toString()) < 0){
                     chol.setError("Cannot be Empty");
-                }else if (trestbps.getText().toString().isEmpty()){
+                }else if (trestbps.getText().toString().isEmpty() || Integer.parseInt(trestbps.getText().toString()) < 0){
                     trestbps.setError("Cannot be Empty");
-                }else if (fbs.getText().toString().isEmpty()){
-                    fbs.setError("Cannot be Empty");
-                }else if (oldpeak.getText().toString().isEmpty()){
+                }else if (fbs.getText().toString().isEmpty() || (!fbs.getText().toString().equals("0") && !fbs.getText().toString().equals("1"))){
+                    fbs.setError("Should be in 0-1 range");
+                }else if (oldpeak.getText().toString().isEmpty() || Float.parseFloat(oldpeak.getText().toString()) < 0){
                     oldpeak.setError("Cannot be Empty");
                 }else {
                     //API -> Volley
@@ -89,12 +106,14 @@ public class MainActivity extends AppCompatActivity {
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(MainActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
-                            Log.d("API ERROR : ", error.getMessage().toString());
+                            String err = (error.getMessage()==null)?"Failed! Please Try Again":error.getMessage();
+                            Toast.makeText(MainActivity.this,err,Toast.LENGTH_SHORT).show();
+                            Log.d("API ERROR : ", err);
                         }
                     }){
                         @Override
                         protected Map<String,String> getParams(){
+
                             Map<String,String> params = new HashMap<String, String>();
                             params.put("cp",cp.getText().toString());
                             params.put("thalach",thalach.getText().toString());
@@ -114,5 +133,105 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        info1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String info = "It displays the type of chest-pain experienced by the individual using the following format :\n" +
+                        "0 = typical angina\n" +
+                        "1 = atypical angina\n" +
+                        "2 = non — anginal pain\n" +
+                        "3 = asymptotic";
+                infoDialog("Chest-pain type:",info);
+            }
+        });
+
+        info2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String info = "It displays the max heart rate achieved by an individual.";
+                infoDialog("Max heart rate:",info);
+            }
+        });
+
+        info3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String info = "Peak exercise ST segment :\n" +
+                        "0 = upsloping\n" +
+                        "1 = flat\n" +
+                        "2 = downsloping";
+                infoDialog("Exercise ST:",info);
+            }
+        });
+
+        info4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String info = "It displays resting electrocardiographic results\n" +
+                        "0 = normal\n" +
+                        "1 = having ST-T wave abnormality\n" +
+                        "2 = left ventricular hyperthrophy";
+                infoDialog("Resting ECG:",info);
+            }
+        });
+
+        info5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String info = "It displays the serum cholesterol in mg/dl (unit)";
+                infoDialog("Cholestrol:",info);
+            }
+        });
+
+        info6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String info = "It displays the resting blood pressure value of an individual in mmHg (unit)";
+                infoDialog("Resting Blood Pressure:",info);
+            }
+        });
+
+        info7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String info = "It compares the fasting blood sugar value of an individual with 120mg/dl.\n" +
+                        "If fasting blood sugar > 120mg/dl then : 1 (true)\n" +
+                        "else : 0 (false)";
+                infoDialog("Fasting Blood Sugar:",info);
+            }
+        });
+
+        info8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String info = "ST depression induced by exercise relative to rest, displays the value which is an integer or float.";
+                infoDialog("ST depression:",info);
+            }
+        });
+    }
+
+    private void infoDialog(String i, String string) {
+
+        Dialog dialog;
+        dialog = new Dialog(MainActivity.this);
+
+        dialog.setContentView(R.layout.info_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ImageView close = dialog.findViewById(R.id.closeDialog);
+        TextView nameDialog = dialog.findViewById(R.id.nameDialog);
+        TextView infoDialog = dialog.findViewById(R.id.infoDialog);
+
+        nameDialog.setText(""+i);
+        infoDialog.setText(string);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        dialog.show();
     }
 }

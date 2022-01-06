@@ -25,14 +25,14 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         String data = intent.getStringExtra("result");
-        if (data.equals("1")){
-            speedometer.setFillColor(Color.parseColor("#EC4C4C"));
-            result.setText("Chances of Heart Disease");
+        if (data.equals("0")){
+            speedometer.setFillColor(Color.parseColor("#5BDEAC"));
+            result.setText("Chances of No Heart Disease");
             speedometer.setSpeed(81,1000L,null);
             speedometer.animate();
         }else {
-            speedometer.setFillColor(Color.parseColor("#5BDEAC"));
-            result.setText("Chances of No Heart Disease");
+            speedometer.setFillColor(Color.parseColor("#EC4C4C"));
+            result.setText("Chances of Heart Disease");
             speedometer.setSpeed(81,1000L,null);
             speedometer.animate();
         }
