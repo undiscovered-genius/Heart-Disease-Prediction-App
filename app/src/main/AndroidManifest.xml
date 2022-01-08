@@ -11,8 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HeartDiseasePredictor">
-        <activity android:name=".AboutActivity"></activity>
-        <activity android:name=".ResultActivity" />
+        <activity android:name=".InfoActivity"></activity>
+        <activity android:name=".AboutActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>

@@ -377,5 +377,27 @@
         android:layout_marginTop="15dp"
         android:layout_marginBottom="5dp"/>
 
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <Button
+        android:id="@+id/tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tips to Improve"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/result" />
+
 
 </LinearLayout>

@@ -15,7 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class HomeActivity extends AppCompatActivity {
 
     SwitchCompat switchCompat;
-    MaterialCardView cardView;
+    MaterialCardView cardView, cardView2;
     FloatingActionButton floatingActionButton;
 
     @Override
@@ -25,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
 
         switchCompat = findViewById(R.id.modeSwitch);
         cardView = findViewById(R.id.cardView);
+        cardView2 = findViewById(R.id.cardView2);
         floatingActionButton = findViewById(R.id.about);
 
         switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -43,6 +44,14 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        cardView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this,InfoActivity.class);
                 startActivity(intent);
             }
         });

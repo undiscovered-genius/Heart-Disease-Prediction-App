@@ -2,6 +2,7 @@ package com.example.heartdiseasepredictor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText cp, thalach, slope, restecg, chol, trestbps, fbs, oldpeak;
     private Button predict;
     private ImageButton info1, info2, info3, info4, info5, info6, info7, info8;
+    private TextView result;
+    private Button tips;
     String url = "https://hearth-disease-prediction-app.herokuapp.com/predict";
 
     @Override
@@ -59,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         info6 = findViewById(R.id.info6);
         info7 = findViewById(R.id.info7);
         info8 = findViewById(R.id.info8);
+        result = findViewById(R.id.result);
+        tips = findViewById(R.id.tips);
 
         predict.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,16 +93,31 @@ public class MainActivity extends AppCompatActivity {
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                             new Response.Listener<String>() {
+                                @SuppressLint("WrongConstant")
                                 @Override
                                 public void onResponse(String response) {
 
                                     try {
                                         JSONObject jsonObject = new JSONObject(response);
                                         String data = jsonObject.getString("hearth_disease");
+                                        tips.setVisibility(1);
 
-                                        Intent intent = new Intent(MainActivity.this,ResultActivity.class);
-                                        intent.putExtra("result",data);
-                                        startActivity(intent);
+                                        if (data.equals("0")){
+                                            result.setTextColor(Color.parseColor("#5bdeac"));
+                                            result.setText("81.97% Chances of No Heart Disease");
+                                        }else {
+                                            result.setTextColor(Color.parseColor("#EC4C4C"));
+                                            result.setText("81.97% Chances of Heart Disease");
+                                        }
+
+                                        cp.setText("");
+                                        thalach.setText("");
+                                        slope.setText("");
+                                        restecg.setText("");
+                                        chol.setText("");
+                                        trestbps.setText("");
+                                        fbs.setText("");
+                                        oldpeak.setText("");
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -137,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         info1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String info = "It displays the type of chest-pain experienced by the individual using the following format :\n" +
+                String info = "It should display the type of chest-pain experienced by the individual using the following format :\n" +
                         "0 = typical angina\n" +
                         "1 = atypical angina\n" +
                         "2 = non — anginal pain\n" +
@@ -149,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         info2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String info = "It displays the max heart rate achieved by an individual.";
+                String info = "It should display the max heart rate achieved by an individual.";
                 infoDialog("Max heart rate:",info);
             }
         });
@@ -168,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         info4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String info = "It displays resting electrocardiographic results\n" +
+                String info = "It should display resting electrocardiographic results\n" +
                         "0 = normal\n" +
                         "1 = having ST-T wave abnormality\n" +
                         "2 = left ventricular hyperthrophy";
@@ -179,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         info5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String info = "It displays the serum cholesterol in mg/dl (unit)";
+                String info = "It should display the serum cholesterol in mg/dl (unit)";
                 infoDialog("Cholestrol:",info);
             }
         });
@@ -187,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
         info6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String info = "It displays the resting blood pressure value of an individual in mmHg (unit)";
+                String info = "It should display the resting blood pressure value of an individual in mmHg (unit)";
                 infoDialog("Resting Blood Pressure:",info);
             }
         });
@@ -205,8 +225,16 @@ public class MainActivity extends AppCompatActivity {
         info8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String info = "ST depression induced by exercise relative to rest, displays the value which is an integer or float.";
+                String info = "ST depression induced by exercise relative to rest, should display the value which is an integer or float. Write zero (0) if nothing.";
                 infoDialog("ST depression:",info);
+            }
+        });
+
+        tips.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,InfoActivity.class));
+                finish();
             }
         });
     }
