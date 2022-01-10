@@ -1,3 +1,5 @@
+[![Views](https://visitor-badge.glitch.me/badge?page_id=undiscovered-genius.undiscovered-genius/Heart-Disease-Prediction-App)](https://github.com/undiscovered-genius/Heart-Disease-Prediction-App)
+
 # Heart-Disease-Prediction-App
 ### Cardio Guide is an application which uses Machine Learning Model to predict the chances of Heart Disease with an accuracy of 81.967%. With this it also provide you with tips to improve your health status which directly benefits your heart.
 ### Heart diseases is a term covering any disorder of the heart. Heart diseases have become a major concern to deal with as studies show that the number of deaths due to heart diseases have increased significantly over the past few decades in India, in fact it has become the leading cause of death in India. Heart disease describes a range of conditions that affect your heart. Diseases under the heart disease umbrella include blood vessel diseases, such as coronary artery disease, heart rhythm problems (arrhythmias) and heart defects you’re born with (congenital heart defects), among others.
